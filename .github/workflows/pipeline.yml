@@ -1,0 +1,37 @@
+name: Network Automation Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  network-job:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Install Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install Dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Run Ansible Playbook
+        run: |
+          ansible-playbook ansible/playbook.yml
+
+      - name: Run pyATS Tests
+        run: |
+          pyats run job pyats/show_run_test.py
+
+      - name: Run Terraform
+        run: |
+          cd terraform
+          terraform init
+          terraform apply -auto-approve
