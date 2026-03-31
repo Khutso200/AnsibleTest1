@@ -33,7 +33,7 @@ jobs:
   
       - name: Run pyATS Tests
         run: |
-         python -m pyats run job pyats/show_run_test.py
+         easypy pyats/show_run_test.py
 
       - name: Run Terraform
         run: |
