@@ -1,0 +1,19 @@
+---
+- name: Collect Cisco Running Config
+  hosts: all
+  gather_facts: false
+
+  tasks:
+    - name: Test connectivity
+      ping:
+
+    - name: Run show run (Cisco)
+      ios_command:
+        commands:
+          - show running-config
+      register: output
+      ignore_errors: yes
+
+    - name: Print output
+      debug:
+        var: output.stdout
